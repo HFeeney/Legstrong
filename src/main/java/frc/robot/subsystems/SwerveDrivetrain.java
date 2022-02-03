@@ -139,6 +139,8 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Gyro angle", getGyroAngle());
+    SmartDashboard.putBoolean("Field Centric active", getFieldCentricActive());
     // This method will be called once per scheduler run
     // mSwervePose = mSwerveDriveOdometry.update(new Rotation2d(getGyroAngle()), moduleStates);
   }

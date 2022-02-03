@@ -31,10 +31,10 @@ public final class Constants {
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
         // in meters per second
-        public static final double MAX_WHEEL_SPEED = 1; // TODO: unofficial number
+        public static final double MAX_WHEEL_SPEED = 6; // TODO: unofficial number
 
         // in radians per second
-        public static final double MAX_ANGULAR_SPEED = 2; // TODO: unoffical number
+        public static final double MAX_ANGULAR_SPEED = 6; // TODO: unoffical number
         
         // the motor ports should be in the order FL, FR, BL, BR
         public static final int[] SPEED_MOTOR_PORTS = {4, 5, 6, 7};
@@ -63,20 +63,20 @@ public final class Constants {
         // meters per rev wheel / rev motor per rev wheel / counts per rev motor
         public static final double METERS_PER_COUNT =  WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO / SPEED_ENCODER_CPR;
 
-        public static final double ANGLE_PID_KP = 1;
+        public static final double ANGLE_PID_KP = 15;
         public static final double ANGLE_PID_KI = 0.0;
         public static final double ANGLE_PID_KD = 0.0;
         // in encoder ticks per second
-        public static final double MAX_MODULE_ANGULAR_SPEED = 6.00;
+        public static final double MAX_MODULE_ANGULAR_SPEED = 5;
         // in encoder ticks per second per second
-        public static final double MAX_MODULE_ANGULAR_ACCELERATION = ANGLE_ENCODER_CPR;
+        public static final double MAX_MODULE_ANGULAR_ACCELERATION = 9;
 
         public static final double SPEED_PID_KP = 0.002;
         public static final double SPEED_PID_KI = 0.0;
         public static final double SPEED_PID_KD = 0.0;
 
-        public static final double ANGLE_FF_KS = 1.05;
-        public static final double ANGLE_FF_KV = 1.537;
+        public static final double ANGLE_FF_KS = 0.004;
+        public static final double ANGLE_FF_KV = 1.889;
 
         // translation 2d considers the front of the robot as the positive x direction
         // and the left of the robot as the positive y direction

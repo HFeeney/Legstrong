@@ -23,7 +23,6 @@ public class SwerveModule extends SubsystemBase {
   
   private int moduleNumber;
   private double setSpeed;
-  private double angleSetpoint;
 
   private CANSparkMax speedMotor;
   private WPI_TalonSRX angleMotor;
@@ -38,7 +37,6 @@ public class SwerveModule extends SubsystemBase {
 
     this.moduleNumber = moduleNumber;
     this.setSpeed = 0.0;
-    this.angleSetpoint = 0.0;
     
     speedMotor = new CANSparkMax(SPEED_MOTOR_PORTS[moduleNumber], MotorType.kBrushless);
     angleMotor = new WPI_TalonSRX(ANGLE_MOTOR_PORTS[moduleNumber]);
@@ -87,11 +85,10 @@ public class SwerveModule extends SubsystemBase {
       setSpeed(-speed);
     }
 
-    double anglePIDOutput = anglePID.calculate(getAngle(), angleSetpoint);
+    double anglePIDOutput = anglePID.calculate(getAngle(), getAngleSetpoint());
     double angleFFOutput = angleFeedforward.calculate(anglePID.getSetpoint().velocity);
 
-    SmartDashboard.putNumber("angleFFOutput", angleFFOutput);
-    angleMotor.setVoltage(angleFFOutput);
+    angleMotor.setVoltage(angleFFOutput + anglePIDOutput);
   }
 
 
@@ -113,7 +110,7 @@ public class SwerveModule extends SubsystemBase {
     // // the scale is from 0 to MAX_WHEEL_SPEED usually, must be scaled to 0 to 1
     // metersPerSecond /= Constants.Swerve.MAX_WHEEL_SPEED;
     
-    // speedMotor.setVoltage(output);
+    speedMotor.setVoltage(output);
 
     setSpeed = metersPerSecond;
   }
@@ -193,7 +190,7 @@ public class SwerveModule extends SubsystemBase {
    * @return current angle setpoint of angle pid in encoder ticks
    */
   public double getAngleSetpoint() {
-    return angleSetpoint;
+    return anglePID.getGoal().position;
   }
 
 
@@ -203,7 +200,7 @@ public class SwerveModule extends SubsystemBase {
    * @param setpoint the desired angle of module in encoder ticks
    */
   public void setAngleSetpoint(double setpoint) {
-    this.angleSetpoint = setpoint;
+    anglePID.setGoal(setpoint);
   }
 
 
