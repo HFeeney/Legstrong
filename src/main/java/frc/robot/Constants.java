@@ -31,7 +31,7 @@ public final class Constants {
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
         // in meters per second
-        public static final double MAX_WHEEL_SPEED = 6; // TODO: unofficial number
+        public static final double MAX_WHEEL_SPEED = 3; // TODO: unofficial number
 
         // in radians per second
         public static final double MAX_ANGULAR_SPEED = 6; // TODO: unoffical number
@@ -66,10 +66,11 @@ public final class Constants {
         public static final double ANGLE_PID_KP = 15;
         public static final double ANGLE_PID_KI = 0.0;
         public static final double ANGLE_PID_KD = 0.0;
+        public static final double ANGLE_PID_TOLERANCE = 0.2;
         // in encoder ticks per second
-        public static final double MAX_MODULE_ANGULAR_SPEED = 5;
+        public static final double MAX_MODULE_ANGULAR_SPEED = 9.8; // 5;
         // in encoder ticks per second per second
-        public static final double MAX_MODULE_ANGULAR_ACCELERATION = 9;
+        public static final double MAX_MODULE_ANGULAR_ACCELERATION = 78; // 9;
 
         public static final double SPEED_PID_KP = 0.002;
         public static final double SPEED_PID_KI = 0.0;

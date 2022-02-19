@@ -58,6 +58,7 @@ public class SwerveModule extends SubsystemBase {
       )
     );
     anglePID.enableContinuousInput(0, ANGLE_ENCODER_CPR);
+    anglePID.setTolerance(ANGLE_PID_TOLERANCE);
 
     speedPID = new PIDController(SPEED_PID_KP, SPEED_PID_KI, SPEED_PID_KD);
 
@@ -78,15 +79,17 @@ public class SwerveModule extends SubsystemBase {
    */
   public void drive(double setpoint, double speed) {
     setAngleSetpoint(setpoint);
-    setSpeed(speed);
 
     if (setpointAdjustmentNecessary()) {
       flipAngleSetpoint();
-      setSpeed(-speed);
+      speed *= -1;
     }
 
     double anglePIDOutput = anglePID.calculate(getAngle(), getAngleSetpoint());
     double angleFFOutput = angleFeedforward.calculate(anglePID.getSetpoint().velocity);
+
+    if (anglePID.atGoal() || speed == 0.0)
+      setSpeed(speed);
 
     angleMotor.setVoltage(angleFFOutput + anglePIDOutput);
   }
@@ -239,5 +242,6 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
+
   }
 }
