@@ -31,7 +31,7 @@ public final class Constants {
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
         // in meters per second
-        public static final double MAX_WHEEL_SPEED = 3; // TODO: unofficial number
+        public static final double MAX_WHEEL_SPEED = 6; // TODO: unofficial number
 
         // in radians per second
         public static final double MAX_ANGULAR_SPEED = 6; // TODO: unoffical number

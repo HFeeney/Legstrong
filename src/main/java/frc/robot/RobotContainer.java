@@ -44,10 +44,19 @@ public class RobotContainer {
         new RunCommand(
             () -> {
               double scale = 1;
+
+              double fwd = driver.getRawAxis(Logitech.Ports.LEFT_STICK_Y);
+              double str = driver.getRawAxis(Logitech.Ports.LEFT_STICK_X);
+              double rot = driver.getRawAxis(Logitech.Ports.RIGHT_STICK_X);
+
+              fwd = fwd < 0 ? -fwd * fwd : fwd * fwd;
+              str = str < 0 ? -str * str : str * str;
+              rot = rot < 0 ? -rot * rot : rot * rot;
+
               swerveDrivetrain.drive(
-                  driver.getRawAxis(Logitech.Ports.LEFT_STICK_Y) * scale,
-                  driver.getRawAxis(Logitech.Ports.LEFT_STICK_X) * -1 * scale,
-                  driver.getRawAxis(Logitech.Ports.RIGHT_STICK_X) * -1 * scale);
+                  fwd * scale,
+                  str * -1 * scale,
+                  rot * -1 * scale);
             },
             swerveDrivetrain));
   }
@@ -67,13 +76,13 @@ public class RobotContainer {
 
     a.whenPressed(
       new InstantCommand(
-        () -> swerveDrivetrain.setFieldCentricActive(true)));
+        () -> {
+          swerveDrivetrain.setFieldCentricActive(true);
+          swerveDrivetrain.resetGyro();
+        }));
     b.whenPressed(
       new InstantCommand(
         () -> swerveDrivetrain.setFieldCentricActive(false)));
-    x.whenPressed(
-       new InstantCommand(
-        () -> swerveDrivetrain.resetGyro()));
   }
 
   /**

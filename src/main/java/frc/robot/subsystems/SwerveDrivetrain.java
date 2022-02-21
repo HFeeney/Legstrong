@@ -39,7 +39,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     swerveModules = new SwerveModule[NUM_MODULES];
     
     for (int i = 0; i < NUM_MODULES; i++) {
-      swerveModules[i] = new SwerveModule(i);
+      swerveModules[i] = new SwerveModule(i, this);
     }
 
     gyro = new AHRS(GYRO_PORT);
@@ -94,6 +94,16 @@ public class SwerveDrivetrain extends SubsystemBase {
 
       swerveModules[i].drive(setpoint, speed);
     }
+  }
+
+
+
+  public boolean modulesAtSetpoints() {
+    for (int i = 0; i < NUM_MODULES; i++) {
+      if (!swerveModules[i].atAngleSetpoint())
+        return false;
+    }
+    return true;
   }
 
 

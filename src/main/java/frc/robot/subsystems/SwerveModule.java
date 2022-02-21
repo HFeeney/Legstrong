@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Swerve;
+
 import static frc.robot.Constants.Swerve.*;
 
 public class SwerveModule extends SubsystemBase {
@@ -32,8 +34,10 @@ public class SwerveModule extends SubsystemBase {
   private PIDController speedPID;
   private SimpleMotorFeedforward angleFeedforward;
 
+  private SwerveDrivetrain swerve;
+
   /** Creates a new SwerveModule. */
-  public SwerveModule(int moduleNumber) {
+  public SwerveModule(int moduleNumber, SwerveDrivetrain swerveDrivetrain) {
 
     this.moduleNumber = moduleNumber;
     this.setSpeed = 0.0;
@@ -68,6 +72,7 @@ public class SwerveModule extends SubsystemBase {
       angleMotor.setInverted(InvertType.None);
     }
 
+    swerve = swerveDrivetrain;
   }
 
 
@@ -88,10 +93,13 @@ public class SwerveModule extends SubsystemBase {
     double anglePIDOutput = anglePID.calculate(getAngle(), getAngleSetpoint());
     double angleFFOutput = angleFeedforward.calculate(anglePID.getSetpoint().velocity);
 
-    if (anglePID.atGoal() || speed == 0.0)
+    if (swerve.modulesAtSetpoints() || speed == 0.0)
       setSpeed(speed);
 
-    angleMotor.setVoltage(angleFFOutput + anglePIDOutput);
+    if (speed != 0.0)
+      angleMotor.setVoltage(angleFFOutput + anglePIDOutput);
+    else
+      angleMotor.setVoltage(0.0);
   }
 
 
@@ -194,6 +202,12 @@ public class SwerveModule extends SubsystemBase {
    */
   public double getAngleSetpoint() {
     return anglePID.getGoal().position;
+  }
+
+
+
+  public boolean atAngleSetpoint() {
+    return anglePID.atGoal();
   }
 
 
